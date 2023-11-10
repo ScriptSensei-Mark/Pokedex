@@ -7,5 +7,5 @@ async function init() {
 async function fetchData() {
     let url = MAIN_URL;
     let response = await fetch(url);
-    let startingBatch = await response.json();
+    let firstBatch = await response.json();
 };
