@@ -1,0 +1,6 @@
+.bg-img {
+    position: fixed;
+    height: 100vh;
+    bottom: -180px;
+    right: -180px;
+}
