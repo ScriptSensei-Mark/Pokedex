@@ -51,11 +51,13 @@ input::placeholder {
 
 main {
     margin: 16px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(288px, auto));
+    padding: 0 1em 1em;
+    gap: 1.5em;
 }
 
 .poke-card {
-    min-width: 320px;
-    max-width: 320px;
     background-color: #68d88c !important;
     padding: 16px;
     border-radius: 16px;
