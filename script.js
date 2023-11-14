@@ -4,14 +4,16 @@ async function init() {
     await renderPokemons();
 };
 
-async function fetchData() {
-    let url = MAIN_URL;
+async function fetchData(x = '') {
+    let url = MAIN_URL + x;
     let response = await fetch(url);
     let responseJSON = await response.json();
+    console.log(responseJSON)
     return responseJSON;
 };
 
 
 async function renderPokemons() {
-    await fetchData
+    let object = await fetchData('?limit=50');
+    console.log(object.results)
 };
