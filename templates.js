@@ -1,4 +1,4 @@
-function getPokemonDetails(i) {
+function getPokemonInfos(i) {
     return /*html*/ `
         <div onclick="openDetails(i)" class="poke-card" id="card${i}">
             <div class="card-content" id="">
