@@ -1,6 +1,11 @@
 const MAIN_URL = 'https://pokeapi.co/api/v2/pokemon';
+const MAX_POKEMON = 1017;
+
 let limit = 51;
 let colorPalette = { normal: '#A4A4A4', fighting: '#C7703A', flying: '#68E4F9', poison: '#7D57A0', ground: '#947944', rock: '#5C7A79', bug: '#B4BE10', ghost: '#924A96', steel: '#5B8196', fire: '#E94128', water: '#68D8F4', grass: '#68d88c', electric: '#F8DC4B', psychic: '#BF5B99', ice: '#78CCF0', dragon: '#50A495', dark: '#36093c', fairy: '#DAB0D4', shadow: '#37343A' };
+let isLoading = false;
+
+window.addEventListener("scroll", checkScroll);
 
 
 function init() {
@@ -9,18 +14,11 @@ function init() {
     }
 };
 
-// Funktion, um Pokemon-Karten hinzuzufügen
+
 async function addPokemonCard(i) {
-    // Erstelle ein neues div-Element für die Pokemon-Karte
     const pokemonElement = document.createElement('div');
-
-    // Setze die innerHTML-Eigenschaft des neuen Elements mit den Pokemon-Infos
     pokemonElement.innerHTML = getPokemonInfos(i);
-
-    // Füge das neue Element zum Haupt-Container hinzu
     document.getElementById('display').appendChild(pokemonElement);
-
-    // Rufe die Funktion auf, um die Daten für das Pokemon zu laden
     await fetchSinglePokemon(i);
 };
 
@@ -30,28 +28,15 @@ async function fetchSinglePokemon(i) {
     const response = await fetch(url);
     const data = await response.json();
     updatePokemonInfo(data, i);
-}
+};
+
 
 function updatePokemonInfo(data, i) {
     document.getElementById(`pokeName${i}`).textContent = checkName(data);
     document.getElementById(`pokeID${i}`).textContent = checkId(data);
     getPokeTypes(data, i);
-    document.getElementById(`pokeImg${i}`).src = data.sprites.other.dream_world.front_default;
-}
-
-
-// function checkId(data) {
-//     let id = data.id
-//     if (id < 10) {
-//         return '#' + '00' + id;;
-//     }
-//     if (id < 100) {
-//         return '#' + '0' + id;;
-//     }
-//     if (id < 1000) {
-//         return '#' + id;;
-//     }
-// };
+    document.getElementById(`pokeImg${i}`).src = data.sprites.other.dream_world.front_default || data.sprites.other['official-artwork'].front_default || data.sprites;
+};
 
 
 function checkId(data) {
@@ -69,11 +54,12 @@ function checkName(data) {
         name = name.slice(0, -2) + ' ♀';
     }
     return capitalizeFirstLetter(name);
-}
+};
+
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
 
 function getPokeTypes(data, i) {
@@ -84,7 +70,6 @@ function getPokeTypes(data, i) {
         const typeDiv = document.createElement('div');
         typeDiv.textContent = type.type.name;
         document.getElementById(`types${i}`).appendChild(typeDiv);
-
         if (j === 0) {
             primaryType = type.type.name;
             setBackgroundColor(primaryType, i)
@@ -92,14 +77,49 @@ function getPokeTypes(data, i) {
     }
 };
 
+
 function setBackgroundColor(primaryType, i) {
     const cardElement = document.getElementById(`card${i}`);
 
-    // Überprüfe, ob der Typ im colorPalette vorhanden ist
     if (colorPalette.hasOwnProperty(primaryType)) {
         cardElement.style.backgroundColor = colorPalette[primaryType];
     } else {
-        // Fallback-Farbe, wenn der Typ nicht im colorPalette ist
         cardElement.style.backgroundColor = '#FFFFFF';
     }
-}
+};
+
+
+
+function checkScroll() {
+    const windowHeight = window.innerHeight;
+
+    const documentHeight = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+    );
+
+    const scrollY = window.scrollY || window.pageYOffset;
+    if (scrollY + windowHeight >= documentHeight) {
+
+        addMorePokemons();
+    }
+};
+
+
+function addMorePokemons() {
+    if (isLoading || limit >= MAX_POKEMON) return;
+    isLoading = true;
+
+    const oldLimit = limit;
+    limit = Math.min(limit + 50, MAX_POKEMON);
+
+    let promises = [];
+    for (let i = oldLimit; i < limit; i++) {
+        promises.push(addPokemonCard(i));
+    }
+
+    Promise.all(promises).then(() => {
+        isLoading = false;
+    });
+};
