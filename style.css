@@ -107,3 +107,19 @@ main {
     right: 0;
     bottom: 0;
 }
+
+.to-top-btn-wrapper {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    width: 60px;
+    border: 1px solid rgba(0, 0, 0, .04);
+    border-radius: 8px;
+    padding: 4px;
+    background-color: rgba(0, 0, 0, .06);
+    cursor: pointer;
+}
+
+.to-top-btn-wrapper>img {
+    width: 100%;
+}

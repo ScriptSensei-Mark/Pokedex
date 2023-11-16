@@ -89,7 +89,6 @@ function setBackgroundColor(primaryType, i) {
 };
 
 
-
 function checkScroll() {
     const windowHeight = window.innerHeight;
 
@@ -104,6 +103,7 @@ function checkScroll() {
 
         addMorePokemons();
     }
+    showToTopButton()
 };
 
 
@@ -121,5 +121,23 @@ function addMorePokemons() {
 
     Promise.all(promises).then(() => {
         isLoading = false;
+    });
+};
+
+
+function showToTopButton() {
+    const scrollToTopBtn = document.getElementById('ToTopBtn');
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+        scrollToTopBtn.style.display = "block";
+    } else {
+        scrollToTopBtn.style.display = "none";
+    }
+};
+
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
     });
 };
