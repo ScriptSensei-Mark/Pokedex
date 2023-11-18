@@ -23,19 +23,22 @@ input {
     padding: 8px;
     width: 280px;
     outline: none;
+    display: flex;
+    max-height: 32px;
+    overflow: hidden;
 }
 
-.search {
+form {
     display: flex;
     max-height: 32px;
     border-radius: 8px;
     overflow: hidden;
 }
 
-.search-btn {
-    width: 32px;
-    border: none;
-    display: contents;
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-icon {
@@ -49,23 +52,31 @@ input::placeholder {
     color: rgba(0, 0, 0, .3);
 }
 
-main {
-    margin: 16px 0;
+#display {
+    margin: 24px 0;
+    margin-left: auto;
+    margin-right: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(288px, auto));
     padding: 0 1em 1em;
     gap: 1.5em;
+    justify-content: center;
 }
 
 .poke-card {
     padding: 16px;
     max-width: 320px;
+    /* min-width: 300px; */
     border-radius: 16px;
     border: none !important;
     background-image: url(./img/pokeball-background.svg);
     background-position: bottom -92px right -64px;
     background-repeat: no-repeat;
     cursor: pointer;
+}
+
+.poke-card~div {
+    min-width: 300px;
 }
 
 .types {
@@ -110,14 +121,18 @@ main {
 
 .to-top-btn-wrapper {
     position: fixed;
-    bottom: 40px;
-    right: 20px;
-    width: 60px;
-    border: 1px solid rgba(0, 0, 0, .04);
+    bottom: 20px;
+    right: 12px;
+    width: 40px;
+    border: 1px solid rgba(0, 0, 0, .1);
     border-radius: 8px;
     padding: 4px;
     background-color: rgba(0, 0, 0, .06);
     cursor: pointer;
+}
+
+.to-top-btn-wrapper:hover {
+    background-color: rgba(0, 0, 0, .25);
 }
 
 .to-top-btn-wrapper>img {
