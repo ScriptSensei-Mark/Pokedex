@@ -2,7 +2,7 @@ const MAIN_URL = 'https://pokeapi.co/api/v2/pokemon/';
 const MAX_POKEMON = 1017;
 
 let loadedPokemon = {};
-let limit = 51;
+let limit = 52;
 let colorPalette = { normal: '#A4A4A4', fighting: '#C7703A', flying: '#68E4F9', poison: '#7D57A0', ground: '#947944', rock: '#5C7A79', bug: '#B4BE10', ghost: '#924A96', steel: '#5B8196', fire: '#E94128', water: '#68D8F4', grass: '#68d88c', electric: '#F8DC4B', psychic: '#BF5B99', ice: '#78CCF0', dragon: '#50A495', dark: '#36093c', fairy: '#DAB0D4', shadow: '#37343A' };
 let isLoading = false;
 
@@ -10,7 +10,7 @@ window.addEventListener("scroll", checkScroll);
 
 
 function init() {
-    for (let i = 1; i <= limit; i++) {
+    for (let i = 1; i < limit; i++) {
         renderPokemonCard(i);
     }
 };
@@ -21,7 +21,8 @@ async function renderPokemonCard(i) {
     const pokemonElement = document.createElement('div');
     pokemonElement.innerHTML = getPokemonCard(i);
     displayElement.appendChild(pokemonElement);
-    if (!loadedPokemon[i]) {
+
+    if (!loadedPokemon.hasOwnProperty(i)) {
         await fetchSinglePokemon(i);
     } else {
         updatePokemonInfo(loadedPokemon[i], i);
@@ -46,7 +47,18 @@ function updatePokemonInfo(data, i) {
     document.getElementById(`pokeName${i}`).textContent = checkName(data);
     document.getElementById(`pokeID${i}`).textContent = checkId(data);
     getPokeTypes(data, i);
-    document.getElementById(`pokeImg${i}`).src = data.sprites.other.dream_world.front_default || data.sprites.other['official-artwork'].front_default;
+    const imageElement = document.getElementById(`pokeImg${i}`);
+    let imageUrl = data.sprites.other.dream_world.front_default || data.sprites.other['official-artwork'].front_default;
+
+    if (imageUrl) {
+        imageElement.src = imageUrl;
+        imageElement.alt = `Bild von ${data.name}`;
+        imageElement.style.display = '';
+    } else {
+        const textElement = document.createElement('p');
+        textElement.textContent = "This Pokémon is super shy. Unfortunately we couldn't find any images.";
+        imageElement.replaceWith(textElement);
+    }
 };
 
 
@@ -61,16 +73,15 @@ function checkName(data) {
 
     if (name.endsWith('-m')) {
         name = name.slice(0, -2) + ' ♂';
-    }
-    if (name.endsWith('-f')) {
+    } else if (name.endsWith('-f')) {
         name = name.slice(0, -2) + ' ♀';
     }
     return capitalizeFirstLetter(name);
 };
 
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+function capitalizeFirstLetter(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
 
@@ -90,21 +101,14 @@ function getPokeTypes(data, i) {
 };
 
 
-function setBackgroundColor(primaryType, i) {
-    const cardElement = document.getElementById(`card${i}`);
-
-    if (colorPalette.hasOwnProperty(primaryType)) {
-        cardElement.style.backgroundColor = colorPalette[primaryType];
-    } else {
-        cardElement.style.backgroundColor = '#FFFFFF';
-    }
-};
+function setBackgroundColor(type, id) {
+    const cardElement = document.getElementById(`card${id}`);
+    cardElement.style.backgroundColor = colorPalette[type] || '#FFFFFF';
+}
 
 
 function checkScroll() {
     const searchInput = document.getElementById('pokemonSearch').value;
-    if (searchInput) return;
-
     const windowHeight = window.innerHeight;
 
     const documentHeight = Math.max(
@@ -114,12 +118,14 @@ function checkScroll() {
     );
 
     const scrollY = window.scrollY || window.pageYOffset;
-    if (scrollY + windowHeight >= documentHeight) {
 
+    if (!searchInput && (scrollY + windowHeight >= documentHeight)) {
         addMorePokemons();
     }
-    showToTopButton()
+
+    showToTopButton();
 };
+
 
 
 function addMorePokemons() {

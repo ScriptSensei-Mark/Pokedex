@@ -119,6 +119,16 @@ input::placeholder {
     bottom: 0;
 }
 
+.card-content>p {
+    max-width: 180px;
+    max-height: 180px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 20px;
+    text-align: center;
+}
+
 .to-top-btn-wrapper {
     position: fixed;
     bottom: 20px;
