@@ -12,4 +12,16 @@ function getPokemonCard(i) {
             </div>
         </div>
     `
-}
+};
+
+
+function getPokemonDetails(i) {
+    return /*html*/ `
+        <div class="detailed-card" id="detailedCard" onclick="doNotClose(event)">
+            <div class="detail-card-top">
+                
+            </div>
+            <div class="detail-card-bottom"></div>
+        </div>
+`
+};
