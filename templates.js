@@ -1,6 +1,6 @@
 function getPokemonCard(i) {
     return /*html*/ `
-        <div onclick="openDetails(${i})" class="poke-card" id="card${i}">
+        <div onclick="openPokemonDetails(${i})" class="poke-card" id="card${i}">
             <div class="card-content">
                 <div class="card-text">
                     <h2 class="poke-name" id="pokeName${i}"></h2>
@@ -15,13 +15,19 @@ function getPokemonCard(i) {
 };
 
 
-function getPokemonDetails(i) {
+function getPokemonDetails() {
     return /*html*/ `
-        <div class="detailed-card" id="detailedCard" onclick="doNotClose(event)">
-            <div class="detail-card-top">
-                
+        <div class="detailed-card" id="detailCard" onclick="doNotClose(event)">
+            <div id="detailCardTop" class="detail-card-top">
+                <div>
+                    <img class="like-icon" src="./img/empty-heart.svg" alt="empty heart icon">
+                    <img class="close-btn" src="./img/cross-white.svg" onclick="closeOverlay()">
+                </div>
+                <h2 class="poke-name-detail"></h2>
+                <span class="poke-id-detail"></span>
+                <div class="types-detail" id="detailTypes"></div>
             </div>
             <div class="detail-card-bottom"></div>
         </div>
-`
+    `
 };

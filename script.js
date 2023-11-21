@@ -1,6 +1,7 @@
 const MAIN_URL = 'https://pokeapi.co/api/v2/pokemon/';
 const MAX_POKEMON = 1017;
 
+
 let loadedPokemon = {};
 let limit = 52;
 let colorPalette = { normal: '#A4A4A4', fighting: '#C7703A', flying: '#68E4F9', poison: '#7D57A0', ground: '#947944', rock: '#5C7A79', bug: '#B4BE10', ghost: '#924A96', steel: '#5B8196', fire: '#E94128', water: '#68D8F4', grass: '#68d88c', electric: '#F8DC4B', psychic: '#BF5B99', ice: '#78CCF0', dragon: '#50A495', dark: '#36093c', fairy: '#DAB0D4', shadow: '#37343A' };
@@ -35,6 +36,7 @@ async function fetchSinglePokemon(i) {
         let url = `${MAIN_URL + i}`;
         let response = await fetch(url);
         let data = await response.json();
+        data.isLiked = false;
         loadedPokemon[data.id] = data;
         updatePokemonInfo(data, i);
     } catch (error) {
@@ -47,16 +49,31 @@ function updatePokemonInfo(data, i) {
     document.getElementById(`pokeName${i}`).textContent = checkName(data);
     document.getElementById(`pokeID${i}`).textContent = checkId(data);
     getPokeTypes(data, i);
+
     const imageElement = document.getElementById(`pokeImg${i}`);
+    const imageUrl = getPokeImage(data);
+
+    setImageOrPlaceholder(imageElement, imageUrl, data.name);
+};
+
+
+function getPokeImage(data) {
+    // Versuche, die URL des Bildes zu bekommen
     let imageUrl = data.sprites.other.dream_world.front_default || data.sprites.other['official-artwork'].front_default;
 
+    // Gib die URL zurück oder null, wenn kein Bild vorhanden ist
+    return imageUrl || null;
+};
+
+
+function setImageOrPlaceholder(imageElement, imageUrl, pokemonName) {
     if (imageUrl) {
         imageElement.src = imageUrl;
-        imageElement.alt = `Bild von ${data.name}`;
+        imageElement.alt = `Bild von ${pokemonName}`;
         imageElement.style.display = '';
     } else {
         const textElement = document.createElement('p');
-        textElement.textContent = "This Pokémon is super shy. Unfortunately we couldn't find any images.";
+        textElement.textContent = "This Pokémon is super shy. Unfortunately, we couldn't find any images.";
         imageElement.replaceWith(textElement);
     }
 };
@@ -85,26 +102,35 @@ function capitalizeFirstLetter(name) {
 };
 
 
-function getPokeTypes(data, i) {
+function getPokeTypes(data, i, isDetail = false) {
     let primaryType;
+    let typesContainerId = isDetail ? `detailTypes` : `types${i}`;
+    let typesContainer = document.getElementById(typesContainerId);
+
+    typesContainer.innerHTML = ''; // Klare vorhandene Typen
 
     for (let j = 0; j < data.types.length; j++) {
         const type = data.types[j];
         const typeDiv = document.createElement('div');
         typeDiv.textContent = type.type.name;
-        document.getElementById(`types${i}`).appendChild(typeDiv);
+        typesContainer.appendChild(typeDiv);
+
         if (j === 0) {
             primaryType = type.type.name;
-            setBackgroundColor(primaryType, i)
+            setBackgroundColor(primaryType, i, isDetail)
         }
     }
 };
 
 
-function setBackgroundColor(type, id) {
-    const cardElement = document.getElementById(`card${id}`);
-    cardElement.style.backgroundColor = colorPalette[type] || '#FFFFFF';
-}
+function setBackgroundColor(type, id, isDetail = false) {
+    let cardElementId = isDetail ? 'detailCardTop' : `card${id}`;
+    let cardElement = document.getElementById(cardElementId);
+
+    if (cardElement) {
+        cardElement.style.backgroundColor = colorPalette[type] || '#FFFFFF';
+    }
+};
 
 
 function checkScroll() {
