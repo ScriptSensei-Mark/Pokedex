@@ -107,7 +107,7 @@ function getPokeTypes(data, i, isDetail = false) {
     let typesContainerId = isDetail ? `detailTypes` : `types${i}`;
     let typesContainer = document.getElementById(typesContainerId);
 
-    typesContainer.innerHTML = ''; // Klare vorhandene Typen
+    typesContainer.innerHTML = '';
 
     for (let j = 0; j < data.types.length; j++) {
         const type = data.types[j];

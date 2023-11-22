@@ -43,7 +43,7 @@ function renderPokemonDetails(i) {
     detailsElement.querySelector('.poke-name-detail').textContent = checkName(pokemonData);
     detailsElement.querySelector('.poke-id-detail').textContent = checkId(pokemonData);
     getPokeTypes(pokemonData, i, true);
-    // detailsElement.querySelector('.poke-img-detail').src = getPokemonImage(pokemonData);
+    detailsElement.querySelector('.poke-img-detail').src = getPokeImage(pokemonData);
 
     // Weitere Details und Funktionen hier hinzufügen
 };

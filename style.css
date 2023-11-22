@@ -164,24 +164,38 @@ input::placeholder {
 
 .detailed-card {
     height: 80vh;
-    width: calc(80vh/1.5);
+    width: calc(80vh/1.75);
     z-index: 11;
     border-radius: 40px;
     background-color: white;
 }
 
 .detail-card-top {
-    /* background-color: rgb(104, 216, 140); */
+    background-image: url(./img/pokeball-background.svg);
+    background-position: 100px 120px;
+    background-repeat: no-repeat;
+    background-size: 320px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
     height: 50%;
     border-radius: 32px 32px 0 0;
 }
 
-.detail-card-top>div {
-    padding: 16px 24px 0 24px;
+.detail-card-top>div:first-child {
+    padding: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+
+/* .detail-card-top>div:nth-child(2) {
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
 
 .detail-card-top>div>img {
     width: 32px;
@@ -216,4 +230,33 @@ input::placeholder {
 
 .detailed-card {
     color: white;
+}
+
+.types-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+}
+
+.types-detail>div {
+    padding: 4px 16px;
+    background-color: rgba(255, 255, 255, .2);
+    border-radius: 16px;
+}
+
+.detail-top-info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex: 1;
+    gap: 8px;
+}
+
+.detail-top-info span {
+    margin-top: auto;
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, .75);
+    font-size: 20px;
+    font-weight: 300;
 }
