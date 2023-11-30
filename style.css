@@ -64,6 +64,7 @@ input::placeholder {
 }
 
 .poke-card {
+    transition: all 0.25s;
     padding: 16px;
     max-width: 320px;
     /* min-width: 300px; */
@@ -72,6 +73,76 @@ input::placeholder {
     background-image: url(./img/pokeball-background.svg);
     background-position: bottom -92px right -64px;
     background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.card-wrapper:hover .poke-card {
+    transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
+    box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+}
+
+.card-wrapper {
+    transition: all .2s;
+    border-radius: 16px;
+    position: relative;
+}
+
+.poke-card::before,
+.poke-card::after {
+    content: "";
+    opacity: 0;
+    width: 100%;
+    height: 80px;
+    transition: all 0.5s;
+    position: absolute;
+    left: 0;
+    border-radius: 16px;
+}
+
+.poke-card::before {
+    top: 0;
+    height: 100%;
+    background-image: linear-gradient( to top, transparent 80%, rgba(12, 13, 19, 0.45) 92%, rgba(12, 13, 19) 100%);
+}
+
+.poke-card::after {
+    bottom: 0;
+    opacity: 0;
+    background-image: linear-gradient( to bottom, transparent 46%, rgba(12, 13, 19, 0.5) 68%, rgba(12, 13, 19) 97%);
+}
+
+.card-wrapper:hover .poke-card::before,
+.card-wrapper:hover .poke-card::after {
+    opacity: 1;
+}
+
+.hover-img {
+    width: 160px;
+    max-height: 140px;
+    opacity: 0;
+    transition: all 0.5s;
+    transform: translate3d(60px, 0, 10px);
+    left: 64px;
+    right: 64px;
+    bottom: 20px;
+    position: absolute;
+    /* object-fit: cover; */
+    z-index: -1;
+}
+
+.card-wrapper:hover .hover-img {
+    opacity: 1;
+    transform: translate3d(-40px, 0, 10px);
+    max-width: 90%;
+    width: 90%;
+    max-height: 80%;
+    /* left: 20px;
+    right: 20px; */
+    z-index: 1;
     cursor: pointer;
 }
 
@@ -137,12 +208,12 @@ input::placeholder {
     border: 1px solid rgba(0, 0, 0, .1);
     border-radius: 8px;
     padding: 4px;
-    background-color: rgba(0, 0, 0, .06);
+    background-color: rgba(223, 231, 242, .5);
     cursor: pointer;
 }
 
 .to-top-btn-wrapper:hover {
-    background-color: rgba(0, 0, 0, .25);
+    background-color: rgb(223, 231, 242);
 }
 
 .to-top-btn-wrapper>img {
@@ -223,8 +294,8 @@ input::placeholder {
 
 .detail-card-bottom {
     margin-top: -40px;
-    border-radius: 32px 32px 0 0;
-    height: 50%;
+    border-radius: 32px;
+    height: 55.5%;
     background-color: white;
 }
 
@@ -259,4 +330,14 @@ input::placeholder {
     color: rgba(255, 255, 255, .75);
     font-size: 20px;
     font-weight: 300;
+}
+
+.poke-img-detail {
+    width: 240px;
+    height: 240px;
+    transform: translate(140px, -240px);
+}
+
+.detail-img-wrapper {
+    height: 10px;
 }

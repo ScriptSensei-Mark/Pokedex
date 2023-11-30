@@ -45,5 +45,4 @@ function renderPokemonDetails(i) {
     getPokeTypes(pokemonData, i, true);
     detailsElement.querySelector('.poke-img-detail').src = getPokeImage(pokemonData);
 
-    // Weitere Details und Funktionen hier hinzufügen
 };

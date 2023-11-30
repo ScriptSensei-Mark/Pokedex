@@ -51,9 +51,10 @@ function updatePokemonInfo(data, i) {
     getPokeTypes(data, i);
 
     const imageElement = document.getElementById(`pokeImg${i}`);
+    const hoverImage = document.getElementById(`hoverImg${i}`)
     const imageUrl = getPokeImage(data);
 
-    setImageOrPlaceholder(imageElement, imageUrl, data.name);
+    setImageOrPlaceholder(imageElement, hoverImage, imageUrl, data.name);
 };
 
 
@@ -66,9 +67,10 @@ function getPokeImage(data) {
 };
 
 
-function setImageOrPlaceholder(imageElement, imageUrl, pokemonName) {
+function setImageOrPlaceholder(imageElement, hoverImage, imageUrl, pokemonName) {
     if (imageUrl) {
         imageElement.src = imageUrl;
+        hoverImage.src = imageUrl;
         imageElement.alt = `Bild von ${pokemonName}`;
         imageElement.style.display = '';
     } else {
@@ -90,15 +92,20 @@ function checkName(data) {
 
     if (name.endsWith('-m')) {
         name = name.slice(0, -2) + ' ♂';
+    } else if (name.endsWith('-male')) {
+        name = name.slice(0, -5) + ' ♂';
     } else if (name.endsWith('-f')) {
         name = name.slice(0, -2) + ' ♀';
+    } else if (name.endsWith('-female')) {
+        name = name.slice(0, -7) + ' ♀';
     }
+    name = name.replace(/-/g, ' ');
     return capitalizeFirstLetter(name);
 };
 
 
 function capitalizeFirstLetter(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 };
 
 
