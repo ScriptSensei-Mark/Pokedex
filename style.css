@@ -87,7 +87,6 @@ input::placeholder {
 
 .card-wrapper:hover .poke-img {
     opacity: 0;
-    transition: all 0.25s;
 }
 
 .card-wrapper {
@@ -191,6 +190,7 @@ input::placeholder {
     position: absolute;
     right: 0;
     bottom: 0;
+    transition: all .25s;
 }
 
 .card-content>p {

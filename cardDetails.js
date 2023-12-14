@@ -20,20 +20,6 @@ function doNotClose(event) {
 };
 
 
-// function nextPokemonDetails(i) {
-//     let detailDisplay = document.getElementById('pokeDetailDisplay');
-//     detailDisplay.innerHTML = '';
-//     i++;
-//     if (i > )
-//         renderPokemonDetails(i);
-// };
-
-
-function previousPokemonDetails(i) {
-
-};
-
-
 function renderPokemonDetails(i) {
     const pokemonData = loadedPokemon[i];
     if (!pokemonData) return;
