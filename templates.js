@@ -17,8 +17,9 @@ function getPokemonCard(i) {
 };
 
 
-function getPokemonDetails() {
+function getPokemonDetails(i) {
     return /*html*/ `
+        <img src="./img/previous-arrow.svg" class="card-btn previous-btn" onclick="previousDetailCard(${i})" style="${getButtonStyle(i, limit, true)}">
         <div class="detailed-card" id="detailCard" onclick="doNotClose(event)">
             <div id="detailCardTop" class="detail-card-top">
                 <div>
@@ -34,8 +35,8 @@ function getPokemonDetails() {
             <div class="detail-img-wrapper">
                 <img class="poke-img-detail" src="" alt="">
             </div>
-            <div class="detail-card-bottom">
-            </div>
+            <div class="detail-card-bottom"></div>
         </div>
-    `
-};
+        <img src="./img/next-arrow.svg" class="card-btn next-btn" onclick="nextDetailCard(${i})" style="${getButtonStyle(i, limit, false)}">
+    `;
+}

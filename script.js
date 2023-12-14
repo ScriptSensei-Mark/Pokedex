@@ -39,6 +39,7 @@ async function fetchSinglePokemon(i) {
         data.isLiked = false;
         loadedPokemon[data.id] = data;
         updatePokemonInfo(data, i);
+        return data;
     } catch (error) {
         console.error('Error fetching Pokemon:', error);
     }

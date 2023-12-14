@@ -44,5 +44,30 @@ function renderPokemonDetails(i) {
     detailsElement.querySelector('.poke-id-detail').textContent = checkId(pokemonData);
     getPokeTypes(pokemonData, i, true);
     detailsElement.querySelector('.poke-img-detail').src = getPokeImage(pokemonData);
+};
 
+
+function nextDetailCard(i) {
+    doNotClose(event)
+    i++;
+    openPokemonDetails(i);
+};
+
+
+function previousDetailCard(i) {
+    doNotClose(event)
+    if (i == 1) {
+        openPokemonDetails(i)
+    } else {
+        i--;
+        openPokemonDetails(i);
+    }
+};
+
+
+function getButtonStyle(i, limit, isPreviousButton) {
+    if ((isPreviousButton && i <= 1) || (!isPreviousButton && i >= limit - 1)) {
+        return 'visibility: hidden; pointer-events: none;';
+    }
+    return '';
 };
